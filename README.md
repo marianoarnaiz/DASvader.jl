@@ -21,7 +21,8 @@ To begin install and launch julia from a terminal or you favorite IDE. Once you 
 ```julia
 julia> ] # As soon as you press ']', you enter Pkg mode...
 
-(v1.11) pkg> add https://github.com/marianoarnaiz/DASvader.jl
+(v1.11) pkg> add https://github.com/marianoarnaiz/DASvader.jl https://github.com/anowacki/Geodesics.jl https://github.com/anowacki/Seis.jl
 ```
+
 
 There is a lot still to write in this file!
