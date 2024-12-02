@@ -5,7 +5,7 @@
 
 # DASVader.jl
 
-**DASVader.jl** is an open, fast, and flexible framework for analyzing **Distributed Acoustic Sensing (DAS)** data in [Julia](https://julialang.org). This package is designed for ease of use, speed, and adaptability, making it ideal for processing large DAS datasets.
+**DASVader.jl** is an open, fast, and flexible package for analyzing **Distributed Acoustic Sensing (DAS)** data in [Julia](https://julialang.org). It is designed for ease of use, speed, and adaptability, making it ideal for processing large DAS datasets.
 
 This `README` provides a brief overview of installing and using DASVader. Comprehensive documentation and examples will be available soon.
 
