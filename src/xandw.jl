@@ -567,7 +567,7 @@ end
 #############################################################################################
 
 """
-dasmin: find the average value for each channel and find the min
+xdasmin: find the average value for each channel and find the min
 
 Input:
  - dDAS: DAS data structure
@@ -578,18 +578,18 @@ Outputs:
 Notes:
 # Example: compute the spectrum for each channel.
 ```
-julia> dasmin(dDAS)
+julia> xdasmin(dDAS)
 ```
 """
-function dasmin(dDAS)
+function xdasmin(dDAS)
 
 
     #get them mean and median
-    mea = mean(dDAS.data, dims=1)[:]
-    med = median(dDAS.data, dims=1)[:]
+    mea = mean(dDAS.data, dims=2)[:]
+    med = median(dDAS.data, dims=2)[:]
     #get SNR
-    noise = mean(abs.(dDAS.data), dims=1)[:]
-    signal = maximum(abs.(dDAS.data), dims=1)[:]
+    noise = mean(abs.(dDAS.data), dims=2)[:]
+    signal = maximum(abs.(dDAS.data), dims=2)[:]
     snr = signal ./ noise
     replace!(snr, NaN => 0.0)
 
