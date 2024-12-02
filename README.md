@@ -9,6 +9,25 @@
 
 This `README` provides a brief overview of installing and using DASVader. Comprehensive documentation and examples will be available soon.
 
+## Overview
+
+DASVader is a framework designed to read, process, and visualize Distributed Acoustic Sensing (DAS) data, similar to how software like SAC ([SAC - IRIS](https://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/)), PQL ([PQL II](https://epic.earthscope.org/content/pql-ii-program-viewing-data)), and SeisGram ([SeisGram2K](http://alomax.free.fr/seisgram/SeisGram2K.html)) handle more general seismological data.
+
+The framework provides functionality for many typical signal processing steps in both the frequency and wavelength domains. DASVader leverages the excellent Seis.jl ([Seis.jl GitHub](https://github.com/anowacki/Seis.jl)) package for processing, with additional support from other packages like FFTW ([FFTW.jl GitHub](https://github.com/JuliaMath/FFTW.jl)) and FourierAnalysis ([FourierAnalysis.jl GitHub](https://github.com/Marco-Congedo/FourierAnalysis.jl)).
+
+Plotting is a critical component of seismic data analysis, and DASVader enhances this by offering dynamic, interactive visualizations. This is accomplished using a customized version of InteractiveViz.jl ([InteractiveViz.jl GitHub](https://github.com/org-arl/InteractiveViz.jl)), allowing users to explore large datasets without worrying about performance.
+
+Although DASVader is not intended for highly advanced processing techniques such as machine learning-based denoising, we are continuously working on improvements and new features. We welcome contributions, feedback, and feature requests from the community.
+
+## Key Features
+
+- **Seismic data processing**: Leverages Seis.jl and other Julia packages for processing.
+- **Dynamic visualization**: Interactive plots for real-time data exploration.
+- **Open-source**: Contributions are welcome!
+
+Feel free to contribute or request new features, and help improve DASVader for the seismological community.
+
+
 ---
 
 ## Features
