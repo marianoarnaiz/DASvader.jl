@@ -1,5 +1,5 @@
 
-![DASVader Logo](https://github.com/marianoarnaiz/DASvader.jl/blob/main/Documents/Logo.png)
+<img src="https://raw.githubusercontent.com/marianoarnaiz/DASvader.jl/main/Documents/Logo.png" alt="DASVader Logo" width="200" />
 
 # DASVader.jl
 
