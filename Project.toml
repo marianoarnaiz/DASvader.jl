@@ -21,6 +21,8 @@ DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 MakieThemes = "ec714cd0-4d38-5467-be65-2f19bd15544c"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+FillArrays = "1a297f60-69ca-5386-bcde-b61e274b549b"
+Observables = "510215fc-4207-5dde-b226-833fc4488ee2"
 
 [compat]
 julia = "1.6"
