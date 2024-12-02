@@ -37,11 +37,29 @@ At present, **DASVader** is unregistered, and both it and its dependencies must 
    ```
 
 ---
-
 ## Usage
 
-Detailed examples will be provided soon to help you get started with DAS data analysis using **DASVader.jl**. Stay tuned!
+### Step 0: Load the Package
+```julia
+using DASVader
+```
 
+### Step 1: Read a raw Febus HDF5 file to memory. 
+**Note:** Only FEBUS A1 DAS is readable.
+```julia
+dDAS = rdas("SR_DS_2023-08-24_14-06-17_UTC.h5")
+```
+
+### Step 2: View the data in the file. 
+You can change the colormap (`cm`) (e.g., `:grays`, `:viridis`, `:RdBu_9`) and adjust the color limits (`climit`) to your preference.
+```julia
+fig = viewdas(dDAS; cm=:RdBu_9, climit=10000)
+```
+
+### Step 3: Write the figure to a PDF
+```julia
+savefig(fig, "Matrix.pdf")
+```
 ---
 
 ## Contribution
