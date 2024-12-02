@@ -1,0 +1,23 @@
+module DASVader
+include("tandf.jl")
+include("wmatrix.jl")
+include("filemanagement.jl")
+include("viz.jl")
+include("xandw.jl")
+include("detectiontools.jl")
+include("Findpeaks.jl")
+include("myspectogram.jl")
+include("datasrc.jl")
+include("interface.jl")
+end # module
+
+include("tandf.jl")
+include("wmatrix.jl")
+include("filemanagement.jl")
+include("viz.jl")
+include("xandw.jl")
+include("detectiontools.jl")
+include("Findpeaks.jl")
+include("myspectogram.jl")
+include("datasrc.jl")
+include("interface.jl")

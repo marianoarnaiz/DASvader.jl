@@ -1,0 +1,17 @@
+ABS=abs.(dDAS.data)
+# for each channel
+    for c = 1:nc
+        printstyled(" Sta/Lta on channel $c of $nc.\n", color=32)
+        for k=1:nt
+        # for every time window
+        #1 to nl
+        if k <= nl
+            sta = (1 / ns) * sum(ABS[k:k+ns, c])
+            lta = (1 / nl) * sum(ABS[k:k+nl, c])
+        elseif k > nl
+            sta = (1 / ns) * sum(ABS[k-ns:k, c]) #sta sumation
+            lta = (1 / nl) * sum(ABS[k-nl:k, c]) #lta sumation
+        end
+        sra[c, k] = sta ./ lta
+    end
+    end
