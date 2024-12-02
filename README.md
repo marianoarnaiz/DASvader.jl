@@ -1,3 +1,6 @@
+
+![DASVader Logo](https://github.com/marianoarnaiz/DASvader.jl/blob/main/Documents/Logo.png)
+
 # DASVader.jl
 
 DASVader.jl is an open, fast and flexible framework for analysing Distributed Acoustic Sensing (DAS) data in [Julia](https://julialang.org).
