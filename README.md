@@ -1,5 +1,7 @@
 
-<img src="https://raw.githubusercontent.com/marianoarnaiz/DASvader.jl/main/Documents/Logo.png" alt="DASVader Logo" width="400" />
+<p align="center">
+  <img src="https://raw.githubusercontent.com/marianoarnaiz/DASvader.jl/main/Documents/Logo.png" alt="DASVader Logo" width="200" />
+</p>
 
 # DASVader.jl
 
