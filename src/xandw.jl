@@ -617,7 +617,7 @@ end
 
 
 """
-timecat: Concatenate 2 strainrate matrixes in time assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
+xcat: Concatenate 2 strainrate matrixes in distance assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
 
 Input:
 
@@ -635,10 +635,10 @@ Notes:
  - Catting strainrate matrixes can easily overload your RAM memory. Proceed with caution.
 # Example: Concatenate strainrate1 followed by strainrate2.
 ```
-julia> dDAS3 = timecat(dDAS1,dDAS2);
+julia> dDAS3 = xcat(dDAS1,dDAS2);
 ```
 """
-function timecat(dDAS1, dDAS2)
+function xcat(dDAS1, dDAS2)
     if size(dDAS1.offset) == size(dDAS2.offset) && dDAS1.time[2] - dDAS1.time[1] == dDAS2.time[2] - dDAS2.time[1]
         #Cat the Strain Rates Matrixes
         cat_data = [dDAS1.data dDAS2.data]
@@ -656,7 +656,7 @@ function timecat(dDAS1, dDAS2)
 
 
     else
-        printstyled("Not The same Number of Channels. Can´t timecat!", color=:red, bold=true)
+        printstyled("Not The same Number of Channels. Can´t xcat!", color=:red, bold=true)
     end
     return dDAS3
 end
