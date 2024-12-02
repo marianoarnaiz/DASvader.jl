@@ -663,44 +663,44 @@ end
 
 
 ## Take the integral of  all the DAS signals in time axis
-function intdas(dDAS; method=:trapezium)
+function xintdas(dDAS; method=:trapezium)
     # Begin
     unDAS = deepcopy(dDAS)
     #Set up some trace information
     b = 0.0
-    delta = dDAS.time[2] - dDAS.time[1]
-    noc = size(dDAS.offset, 1)
+    delta = dDAS.offset[2] - dDAS.offset[1]
+    noc = size(dDAS.time, 1)
     # Integration loop
-    for i = 1:size(dDAS.offset, 1)
-        printstyled(" Integrating channel $i of $noc.\n", color=:yellow)
-        dastrace = Trace(b, delta, dDAS.data[:, i]) #write the data to trace format
+    for i = 1:size(dDAS.time, 1)
+        printstyled(" Integrating timestamp $i of $noc.\n", color=:yellow)
+        dastrace = Trace(b, delta, dDAS.data[i, :]) #write the data to trace format
         integrate!(dastrace, method)
-        unDAS.data[1:size(trace(dastrace), 1), i] = trace(dastrace)
+        unDAS.data[i, 1:size(trace(dastrace), 1)] = trace(dastrace)
     end
     return unDAS
 end
 
 
 ## Take the integral in place of  all the DAS signals in time axis
-function intdas!(dDAS; method=:trapezium)
+function xintdas!(dDAS; method=:trapezium)
     # Begin
     #Set up some trace information
-    b = 0.0
-    delta = dDAS.time[2] - dDAS.time[1]
-    noc = size(dDAS.offset, 1)
+   b = 0.0
+    delta = dDAS.offset[2] - dDAS.offset[1]
+    noc = size(dDAS.time, 1)
     # Integration loop
-    for i = 1:size(dDAS.offset, 1)
-        printstyled(" Integrating channel $i of $noc.\n", color=:yellow)
-        dastrace = Trace(b, delta, dDAS.data[:, i]) #write the data to trace format
+        for i = 1:size(dDAS.time, 1)
+        printstyled(" Integrating timestamp $i of $noc.\n", color=:yellow)
+        dastrace = Trace(b, delta, dDAS.data[i, :]) #write the data to trace format
         integrate!(dastrace, method)
-        dDAS.data[1:size(trace(dastrace), 1), i] = trace(dastrace)
+        dDAS.data[i, 1:size(trace(dastrace), 1)] = trace(dastrace)
     end
     return dDAS
 end
 
 
 ## Take the integral of  all the DAS signals in time axis
-function diffdas(dDAS; points=2)
+function xdiffdas(dDAS; points=2)
     # Begin
     unDAS = deepcopy(dDAS)
     #Set up some trace information
@@ -719,7 +719,7 @@ end
 
 
 ## Take the integral in place of  all the DAS signals in time axis
-function diffdas!(dDAS; points=2)
+function xdiffdas!(dDAS; points=2)
     # Begin
     #Set up some trace information
     b = 0.0
@@ -735,4 +735,4 @@ function diffdas!(dDAS; points=2)
     return dDAS
 end
 
-export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, envdas!, decimatedas, decimatedas!, dasfspec, timecat, intdas, intdas!
+export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, envdas!, decimatedas, decimatedas!, dasfspec, xcat, xintdas, xintdas!
