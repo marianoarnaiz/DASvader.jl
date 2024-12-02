@@ -46,7 +46,7 @@ Detailed examples will be provided soon to help you get started with DAS data an
 
 ## Contribution
 
-Contributions, suggestions, and bug reports are welcome! Please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/marianoarnaiz/DASvader.jl).
+Contributions, suggestions, and bug reports are welcome! Please feel free to contact me via email, open an issue or submit a pull request on the [GitHub repository](https://github.com/marianoarnaiz/DASvader.jl).
 
 ---
 
