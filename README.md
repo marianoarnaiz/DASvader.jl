@@ -9,7 +9,7 @@
 
 This `README` provides a brief overview of installing and using DASVader. Comprehensive documentation and examples will be available soon.
 
-For the impatients (like me), I am writting a quick and dirty intro to julia and DASVader.jl, get it here:
+For the impatiens (like me), I am writting a quick and dirty intro to julia and DASVader.jl, get it here:
 
 📄 [Introduction to Julia and DASVader](https://github.com/marianoarnaiz/DASvader.jl/blob/main/Documents/Intro_to_julia_%26_DASVader_V0.0.pdf)
 
