@@ -80,6 +80,21 @@ fig = viewdas(dDAS; cm=:RdBu_9, climit=10000)
 savefig(fig, "Matrix.pdf")
 ```
 ---
+## Some data
+
+### Notice that this data belongs to the FIMOPTIC projec!
+
+If you need some data to test the code you can download this files. The run with the examples provided:
+
+[A Noisy blast file.](https://www.dropbox.com/scl/fi/c6ui9cxcb1gxawm0qqkcp/SR_DS_2023-08-24_14-06-17_UTC_Noisy_Blast.h5?rlkey=e3yn1likn3mkrhesyx85pcpw8&st=6zh6w1i0&dl=0)
+
+[A file with a micro event.](https://www.dropbox.com/scl/fi/xxrd8rlw8kwthmfgwamwx/SR_DS_2023-10-30_12-01-40_UTC_Microevent.h5?rlkey=3zjvn706s46grco4gzhzrqmu5&st=0di6y3x8&dl=0)
+
+[A file with a big blast.](https://www.dropbox.com/scl/fi/abcb1zphevctfkzetn7ql/SR_DS_2024-10-22_14-08-02_UTC_Big_Blast.h5?rlkey=mi9mvj3ynzptgxj3e1khkre8l&st=46eo4s9h&dl=0)
+
+[A file with something that might be an event.](https://www.dropbox.com/scl/fi/n5czzuez7lq2yt3j2s5k5/SR_DS_2024-10-22_21-27-02_UTC_Hidden_Event.h5?rlkey=fsb9tq7wuxgbek5av3uc8rpzd&st=ncrqbwhx&dl=0)
+
+---
 
 ## Contribution
 
