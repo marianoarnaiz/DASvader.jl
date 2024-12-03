@@ -585,4 +585,6 @@ function rec_hos2(signal; C::Float64, order::Int64, var_min= 1e-9, definition=0)
     
     return hos
 end
+
+export staltadas, dasmer, dasrechos, channelrechos, sra:, channelstalta, channelmer, rec_hos, rec_hos2
     
