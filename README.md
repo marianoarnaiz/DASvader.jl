@@ -9,6 +9,11 @@
 
 This `README` provides a brief overview of installing and using DASVader. Comprehensive documentation and examples will be available soon.
 
+For the impatients (like me), I am writting a quick and dirty intro to julia and DASVader.jl, get it here:
+
+📄 [Introduction to Julia and DASVader](https://github.com/marianoarnaiz/DASvader.jl/blob/main/Documents/Intro_to_julia_%26_DASVader_V0.0.pdf)
+
+
 ## Overview
 
 DASVader is a framework designed to read, process, and visualize Distributed Acoustic Sensing (DAS) data, similar to how software like SAC ([SAC - IRIS](https://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/)), PQL ([PQL II](https://epic.earthscope.org/content/pql-ii-program-viewing-data)), and SeisGram ([SeisGram2K](http://alomax.free.fr/seisgram/SeisGram2K.html)) handle more general seismological data.
