@@ -531,7 +531,7 @@ Notes:
 julia> dasfspec(dDAS)
 ```
 """
-function dasfspec(dDAS; type=identity)
+function xdasfspec(dDAS; type=identity)
 
     #Set up some trace information
     delta = dDAS.time[2] - dDAS.time[1]
@@ -735,4 +735,4 @@ function xdiffdas!(dDAS; points=2)
     return dDAS
 end
 
-export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, envdas!, decimatedas, decimatedas!, dasfspec, xcat, xintdas, xintdas!
+export xppdas, xppdas!, xbpdas, xbpdas!, xlpdas, xlpdas!, xhpdas, xhpdas!, xnormdas, xnormdas!, xdecimatedas, xdecimatedas!, xspectogramdas, xdasfspec, xdasmin, xcat, xintdas, xintdas!, xdiffdas, xdiffdas!
