@@ -115,7 +115,7 @@ function recordsection(dDAS; scale=1.0)
 GLMakie.activate!() #activate GL plotting
 dx = dDAS.offset[2]-dDAS.offset[1]
 n = length(dDAS.time)
-scaleddata = cDAS.data./maximum(abs.(cDAS.data))
+scaleddata = dDAS.data./maximum(abs.(dDAS.data))
 scaleddata = scale*dx*scaleddata
 nc = size(dDAS.data,2)
 # Plot signals with positive/negative areas filled:
