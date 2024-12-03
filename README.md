@@ -21,7 +21,7 @@ Although DASVader is not intended for highly advanced processing techniques such
 
 ## Key Features
 
-- **Seismic data processing**: Leverages Seis.jl and other Julia packages for processing.
+- **DAS data processing**: First package in Julia dedicated to DAS processing.
 - **Dynamic visualization**: Interactive plots for real-time data exploration.
 - **Open-source**: Contributions are welcome!
 
