@@ -891,4 +891,4 @@ function diffdas!(dDAS; points=2)
     return dDAS
 end
 
-export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, envdas!, decimatedas, decimatedas!, dasfspec, timecat, intdas, intdas!
+export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, slicedas, slicedas!, decimatedas, decimatedas!, spectrogramdas, fkdas, fspecdas, dasmin, timecat, intdas, intdas!, diffdas, diffdas!
