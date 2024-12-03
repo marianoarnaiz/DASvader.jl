@@ -137,4 +137,4 @@ end
 
 
 
-export viewdas, recordsection, viewchannel, savefig
+export viewdas, fig4, function, savefig, viewchannel, recordsection
