@@ -105,7 +105,7 @@ function viewchannel(dDAS; x, type=identity)
     linkxaxes!(p1.axis, p3.axis)
     #linkxaxes!(ihm2.axis, p4.axis)
     display(fig)
-    return channelx, spectrum, spectogram, fig
+    return dDAS.data[:, chind], spectrum, spectogram, fig
 end
 
 
