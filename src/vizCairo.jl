@@ -3,6 +3,9 @@
 using MakieThemes, CairoMakie
 Makie.set_theme!(ggthemr(:fresh)) #Activate the cool theme :)
 
+##################################################
+println("Using CairoMakie (Headless)")
+##################################################
 
 ## Quicker DAS viewer
 function viewdas(dDAS; cm=:RdBu_11, climit=10000)
