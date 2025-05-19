@@ -4,13 +4,15 @@ module DASVader
 
 const VERBOSE = true  # or false, depending on your use case
 
-# in your main module or script
-if get(ENV, "DISPLAY", "") != ""
-    include("vizGL.jl")
-    VERBOSE && println("Using GLMakie (Display detected)")
-else
-    include("vizCairo.jl")
-    VERBOSE && println("Using CairoMakie (Headless)")
+# choose the plot backend
+function __init__()
+    if get(ENV, "DISPLAY", "") != ""
+        include("vizGL.jl")
+        VERBOSE && println("Using GLMakie (Display detected)")
+    else
+        include("vizCairo.jl")
+        VERBOSE && println("Using CairoMakie (Headless)")
+    end
 end
 
 include("tandf.jl")
