@@ -564,54 +564,6 @@ function dasfspec(dDAS; type=identity)
     return smean, specM, fig
 end
 
-#############################################################################################
-
-"""
-timecat: Concatenate 2 strainrate matrixes in time assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
-
-Input:
-
-- dDAS1: first file to cat .
-- dDAS2: second file to cat .
-
-Outputs:
-
-- dDAS3: cat-ed file.
-
-
-Notes:
- - No processing is applied to the data.
- - No figure is created.
- - Catting strainrate matrixes can easily overload your RAM memory. Proceed with caution.
-# Example: Concatenate strainrate1 followed by strainrate2.
-```
-julia> dDAS3 = timecat(dDAS1,dDAS2);
-```
-"""
-function timecat(dDAS1, dDAS2)
-    if size(dDAS1.offset) == size(dDAS2.offset) && dDAS1.time[2] - dDAS1.time[1] == dDAS2.time[2] - dDAS2.time[1]
-        #Cat the Strain Rates Matrixes
-        cat_data = [dDAS1.data dDAS2.data]
-        #Cat Human time
-        utime = range(start=datetime2unix(dDAS1.htime[1]), step=(dDAS1.time[2] - dDAS1.time[1]), length=(size(dDAS1.time)[1] + size(dDAS2.time)[1]))
-        cat_htime = unix2datetime.(utime)
-        #cat_htime=[htime1 htime2]
-        #Cat Time
-        cat_time = range(start=dDAS1.time[1], step=(dDAS1.time[2] - dDAS1.time[1]), length=(size(dDAS1.time)[1] + size(dDAS2.time)[1]))
-        cat_offset = copy(dDAS1.offset)
-
-        atrib = attb(dDAS1.atrib.AmpliPower, dDAS1.atrib.BlockRate, dDAS1.atrib.Components, dDAS1.atrib.DataDomain, dDAS1.atrib.DerivationTime, dDAS1.atrib.Extent, dDAS1.atrib.FiberLength, dDAS1.atrib.GaugeLength, dDAS1.atrib.Hostname, dDAS1.atrib.Origin, dDAS1.atrib.Oversampling, dDAS1.atrib.PipelineTracker, dDAS1.atrib.PulseRateFreq, dDAS1.atrib.PulseWidth, dDAS1.atrib.SamplingRate, dDAS1.atrib.SamplingRes, dDAS1.atrib.Spacing, dDAS1.atrib.BlockOverlap)
-
-        dDAS3 = iDAS(cat_data, cat_time, cat_htime, cat_offset, atrib)
-
-
-    else
-        printstyled("Not The same Number of Channels. Can´t timecat!", color=:red, bold=true)
-    end
-    return dDAS3
-end
-
-
 ## Take the integral of  all the DAS signals in time axis
 function intdas(dDAS; method=:trapezium)
     # Begin
