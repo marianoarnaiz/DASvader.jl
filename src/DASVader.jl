@@ -2,13 +2,15 @@
 
 module DASVader
 
+const VERBOSE = true  # or false, depending on your use case
+
 # in your main module or script
 if get(ENV, "DISPLAY", "") != ""
     include("vizGL.jl")
-    println("Using GLMakie (Display detected)")
+    VERBOSE && println("Using GLMakie (Display detected)")
 else
     include("vizCairo.jl")
-    println("Using CairoMakie (Headless)")
+    VERBOSE && println("Using CairoMakie (Headless)")
 end
 
 include("tandf.jl")
