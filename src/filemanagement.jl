@@ -449,28 +449,6 @@ mutable struct attb
     BlockOverlap::Vector{Int32}
 end
 
-mutable struct attb
-    AmpliPower::Vector{Int8}
-    BlockRate::Vector{Int32}
-    Components::Vector{Int32}
-    DataDomain::Vector{Int32}
-    DerivationTime::Vector{Float64}
-    Extent::Vector{Int32}
-    FiberLength::Vector{Int32}
-    GaugeLength::Vector{Float64}
-    Hostname::String
-    Origin::Vector{Float64}
-    Oversampling::Vector{Int8}
-    PipelineTracker::String
-    PulseRateFreq::Float64
-    PulseWidth::Vector{Int8}
-    SamplingRate::Vector{Int32}
-    SamplingRes::Vector{Int32}
-    Spacing::Vector{Float64}
-    BlockOverlap::Vector{Int32}
-end
-
-
 ## Definition of mutalble structure array DASdata. Where we save DAS data to files
 mutable struct iDAS
     data::Array{Float32,2}
