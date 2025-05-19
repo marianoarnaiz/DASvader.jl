@@ -2,8 +2,8 @@
 
 module DASVader
 
-include("headless.jl")
-using .HeadlessCheck
+include("headless2.jl")
+#using .HeadlessCheck
 
 if has_graphical_display() == true
     include("vizGL.jl")
