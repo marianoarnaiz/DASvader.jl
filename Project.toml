@@ -22,6 +22,6 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 MakieThemes = "e296ed71-da82-5faf-88ab-0034a9761098"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 Observables = "510215fc-4207-5dde-b226-833fc4488ee2"
-ScatteredInterpolation = "7f1e8635-cd0d-4e6b-86ab-02fef676d4e3"
+ScatteredInterpolation = "3f865c0f-6dca-5f4d-999b-29fe1e7e3c92"
 RollingFunctions = "b0e4dd01-7b14-53d8-9b45-175a3e362653"
 
