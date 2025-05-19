@@ -567,56 +567,6 @@ end
 #############################################################################################
 
 """
-dasmin: find the average value for each channel and find the min
-
-Input:
- - dDAS: DAS data structure
-
-Outputs:
-- No output
-
-Notes:
-# Example: compute the spectrum for each channel.
-```
-julia> dasmin(dDAS)
-```
-"""
-function dasmin(dDAS)
-
-
-    #get them mean and median
-    mea = mean(dDAS.data, dims=1)[:]
-    med = median(dDAS.data, dims=1)[:]
-    #get SNR
-    noise = mean(abs.(dDAS.data), dims=1)[:]
-    signal = maximum(abs.(dDAS.data), dims=1)[:]
-    snr = signal ./ noise
-    replace!(snr, NaN => 0.0)
-
-    #print some results
-    imea = argmin(mea)
-    ichan = dDAS.offset[imea]
-    imed = argmin(med)
-    ichad = dDAS.offset[imed]
-    printstyled("\n Channel with lowest mean is $imea at $ichan m from 0.0 \n", color=:white)
-    printstyled("\n Channel with lowest median is $imed at $ichad m from 0.0 \n", color=:white)
-
-    #make a figure
-    GLMakie.activate!() #activate GL plottinge
-    fig = Figure()
-    ax1 = Axis(fig[1, 1], xlabel="Value", ylabel="Offset [m]", title="Mean and Median")
-    lines!(ax1, mea, dDAS.offset, label="Mean")
-    lines!(ax1, med, dDAS.offset, label="Median")
-    axislegend()
-    ax2 = Axis(fig[1, 2], xlabel="SNR", title="SNR")
-    lines!(ax2, snr, dDAS.offset)
-    display(fig)
-
-    return fig
-end
-
-
-"""
 timecat: Concatenate 2 strainrate matrixes in time assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
 
 Input:
