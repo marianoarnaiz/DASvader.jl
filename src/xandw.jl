@@ -531,7 +531,7 @@ Notes:
 julia> dasfspec(dDAS)
 ```
 """
-function xdasfspec(dDAS; type=identity)
+function dasfspec(dDAS; type=identity)
 
     #Set up some trace information
     delta = dDAS.time[2] - dDAS.time[1]
@@ -567,7 +567,7 @@ end
 #############################################################################################
 
 """
-xdasmin: find the average value for each channel and find the min
+dasmin: find the average value for each channel and find the min
 
 Input:
  - dDAS: DAS data structure
@@ -578,18 +578,18 @@ Outputs:
 Notes:
 # Example: compute the spectrum for each channel.
 ```
-julia> xdasmin(dDAS)
+julia> dasmin(dDAS)
 ```
 """
-function xdasmin(dDAS)
+function dasmin(dDAS)
 
 
     #get them mean and median
-    mea = mean(dDAS.data, dims=2)[:]
-    med = median(dDAS.data, dims=2)[:]
+    mea = mean(dDAS.data, dims=1)[:]
+    med = median(dDAS.data, dims=1)[:]
     #get SNR
-    noise = mean(abs.(dDAS.data), dims=2)[:]
-    signal = maximum(abs.(dDAS.data), dims=2)[:]
+    noise = mean(abs.(dDAS.data), dims=1)[:]
+    signal = maximum(abs.(dDAS.data), dims=1)[:]
     snr = signal ./ noise
     replace!(snr, NaN => 0.0)
 
@@ -617,7 +617,7 @@ end
 
 
 """
-xcat: Concatenate 2 strainrate matrixes in distance assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
+timecat: Concatenate 2 strainrate matrixes in time assuming that the second begins right after the end of the first. Notice that sizes must be compatible!
 
 Input:
 
@@ -635,10 +635,10 @@ Notes:
  - Catting strainrate matrixes can easily overload your RAM memory. Proceed with caution.
 # Example: Concatenate strainrate1 followed by strainrate2.
 ```
-julia> dDAS3 = xcat(dDAS1,dDAS2);
+julia> dDAS3 = timecat(dDAS1,dDAS2);
 ```
 """
-function xcat(dDAS1, dDAS2)
+function timecat(dDAS1, dDAS2)
     if size(dDAS1.offset) == size(dDAS2.offset) && dDAS1.time[2] - dDAS1.time[1] == dDAS2.time[2] - dDAS2.time[1]
         #Cat the Strain Rates Matrixes
         cat_data = [dDAS1.data dDAS2.data]
@@ -656,51 +656,51 @@ function xcat(dDAS1, dDAS2)
 
 
     else
-        printstyled("Not The same Number of Channels. Can´t xcat!", color=:red, bold=true)
+        printstyled("Not The same Number of Channels. Can´t timecat!", color=:red, bold=true)
     end
     return dDAS3
 end
 
 
 ## Take the integral of  all the DAS signals in time axis
-function xintdas(dDAS; method=:trapezium)
+function intdas(dDAS; method=:trapezium)
     # Begin
     unDAS = deepcopy(dDAS)
     #Set up some trace information
     b = 0.0
-    delta = dDAS.offset[2] - dDAS.offset[1]
-    noc = size(dDAS.time, 1)
+    delta = dDAS.time[2] - dDAS.time[1]
+    noc = size(dDAS.offset, 1)
     # Integration loop
-    for i = 1:size(dDAS.time, 1)
-        printstyled(" Integrating timestamp $i of $noc.\n", color=:yellow)
-        dastrace = Trace(b, delta, dDAS.data[i, :]) #write the data to trace format
+    for i = 1:size(dDAS.offset, 1)
+        printstyled(" Integrating channel $i of $noc.\n", color=:yellow)
+        dastrace = Trace(b, delta, dDAS.data[:, i]) #write the data to trace format
         integrate!(dastrace, method)
-        unDAS.data[i, 1:size(trace(dastrace), 1)] = trace(dastrace)
+        unDAS.data[1:size(trace(dastrace), 1), i] = trace(dastrace)
     end
     return unDAS
 end
 
 
 ## Take the integral in place of  all the DAS signals in time axis
-function xintdas!(dDAS; method=:trapezium)
+function intdas!(dDAS; method=:trapezium)
     # Begin
     #Set up some trace information
-   b = 0.0
-    delta = dDAS.offset[2] - dDAS.offset[1]
-    noc = size(dDAS.time, 1)
+    b = 0.0
+    delta = dDAS.time[2] - dDAS.time[1]
+    noc = size(dDAS.offset, 1)
     # Integration loop
-        for i = 1:size(dDAS.time, 1)
-        printstyled(" Integrating timestamp $i of $noc.\n", color=:yellow)
-        dastrace = Trace(b, delta, dDAS.data[i, :]) #write the data to trace format
+    for i = 1:size(dDAS.offset, 1)
+        printstyled(" Integrating channel $i of $noc.\n", color=:yellow)
+        dastrace = Trace(b, delta, dDAS.data[:, i]) #write the data to trace format
         integrate!(dastrace, method)
-        dDAS.data[i, 1:size(trace(dastrace), 1)] = trace(dastrace)
+        dDAS.data[1:size(trace(dastrace), 1), i] = trace(dastrace)
     end
     return dDAS
 end
 
 
 ## Take the integral of  all the DAS signals in time axis
-function xdiffdas(dDAS; points=2)
+function diffdas(dDAS; points=2)
     # Begin
     unDAS = deepcopy(dDAS)
     #Set up some trace information
@@ -719,7 +719,7 @@ end
 
 
 ## Take the integral in place of  all the DAS signals in time axis
-function xdiffdas!(dDAS; points=2)
+function diffdas!(dDAS; points=2)
     # Begin
     #Set up some trace information
     b = 0.0
@@ -735,4 +735,4 @@ function xdiffdas!(dDAS; points=2)
     return dDAS
 end
 
-export xppdas, xppdas!, xbpdas, xbpdas!, xlpdas, xlpdas!, xhpdas, xhpdas!, xnormdas, xnormdas!, xdecimatedas, xdecimatedas!, xspectogramdas, xdasfspec, xdasmin, xcat, xintdas, xintdas!, xdiffdas, xdiffdas!
+export ppdas, ppdas!, bpdas, bpdas!, lpdas, lpdas!, hpdas, hpdas!, normdas, normdas!, envdas, envdas!, decimatedas, decimatedas!, dasfspec, timecat, intdas, intdas!

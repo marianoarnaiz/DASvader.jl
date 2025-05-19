@@ -1,28 +1,20 @@
 "This is the Visualization  part of DAS VADER V1.0"
 
-using MakieThemes, GLMakie, CairoMakie
+using MakieThemes, CairoMakie
 Makie.set_theme!(ggthemr(:fresh)) #Activate the cool theme :)
-GLMakie.activate!() #activate GL plottinge
 
 
 ## Quicker DAS viewer
-function viewdas(dDAS; cm=:RdBu_11, climit=10000, picks=[])
-    GLMakie.activate!() #activate GL plottinge
+function viewdas(dDAS; cm=:RdBu_11, climit=10000)
     fig = Figure(; size=(1000, 600))
     ihm = iheatmap(fig[1, 1], dDAS.time, dDAS.offset, dDAS.data, colormap=cm, colorrange=(-climit, climit))
     Colorbar(fig[1, 2], ihm.plot, label="StrainRate [nm/m/s]")
     ihm.axis.xlabel = "Relative Time [s]"
     ihm.axis.ylabel = "Offset [m]"
-    ihm.axis.title = dDAS.name
     DataInspector(fig)
-    if isempty(picks) == false
-        scatter!(ihm.axis, pocks[:, 4], pocks[:, 2], marker='|', color=:black, markersize=20)
-        printstyled(" Plotting picks\n", color=:green)
-    end
     display(fig)
     return fig
 end
-
 
 
 #a function to safe the current figure
@@ -37,9 +29,7 @@ end
 ## Show a DAS Channel in time (this is constant X all times)
 function viewchannel(dDAS; x, type=identity)
 
-    GLMakie.activate!() #activate GL plottinge
     chind = argmin(abs.(dDAS.offset .- x)) # get the channel index
-    printstyled("\n Plotting channel $x at index $chind \n", color=:green)
     ich = dDAS.offset[chind]
     #get the spect of the channel
     delta = dDAS.time[2] - dDAS.time[1]
@@ -50,20 +40,17 @@ function viewchannel(dDAS; x, type=identity)
     replace!(spectrum, NaN => 0.0)
     replace!(spectrum, Inf => 0.0)
     replace!(spectrum, -Inf => 0.0)
+    channelx = dDAS.data[:, chind]
     #get the spectogram of the channel
-
     n = length(dDAS.data[:, chind])
-    #nw = n ÷ 400
-    #spec = spectrogram(dDAS.data[:, chind], nw, nw ÷ 2; fs=sr)
-
-    spec = gspectrogram(dDAS.data[:, chind], sr, window_size=max(nextpow(2, n / 300), 512), overlap=0.5, alpha=2.5)
-
-    spectogram = transpose(pow2db.(spec.amp))
+    nw = n ÷ 400
+    spec = spectrogram(dDAS.data[:, chind], nw, nw ÷ 2; fs=sr)
+    spectogram = transpose(pow2db.(spec.power))
     fig = Figure(; size=(600, 1000))
 
     p1 = ilines(fig[1, 1], dDAS.time, dDAS.data[:, chind])
     p2 = ilines(fig[3, 1], 1:size(spectrum, 1), spectrum)
-    p3 = heatmap(fig[2, 1], spec.time, spec.freq, spectogram, colormap=:inferno, interpolate=true)
+    p3 = iheatmap(fig[2, 1], spec.time, spec.freq[1]:(spec.freq[2]-spec.freq[1]):spec.freq[end], spectogram, colormap=:inferno)
     Colorbar(fig[2, 2], p3.plot, label="dB")
 
     #p3 = contourf(fig[2, 1], spec.time, spec.freq[1]:(spec.freq[2]-spec.freq[1]):spec.freq[end], transpose(pow2db.(spec.power)), colormap=:inferno)
@@ -84,38 +71,4 @@ function viewchannel(dDAS; x, type=identity)
 end
 
 
-
-function recordsection(dDAS; scale=1.0, picks=[])
-
-    GLMakie.activate!() #activate GL plotting
-    dx = dDAS.offset[2] - dDAS.offset[1]
-    n = length(dDAS.time)
-    scaleddata = scale * dx * dDAS.data
-    scaleddata = scaleddata ./ maximum(abs.(scaleddata))
-    nc = size(dDAS.data, 2)
-    # Plot signals with positive/negative areas filled:
-
-    fig = Figure(; size=(1000, 1000))
-    ax = Axis(fig[1, 1], title=dDAS.name, xlabel="Time [s]", ylabel="Offset [m]", xminorgridvisible=true, yminorgridvisible=true, limits=(nothing, nothing))
-    for i in 1:nc
-        #band!(ax, time, map(x-> x < 0 ? x + i*dx : i*dx, strainrate[i,:]), i*dx, color=("red", 0.3))
-        #band!(time, map(x-> x >= 0 ? x + i*dx : i*dx, strainrate[i,:]), i*dx, color=("blue", 0.3))
-        ilines!(ax, dDAS.time, scaleddata[:, i] .+ i * dx .+ dDAS.offset[1], linewidth=0.5, color=:black)
-    end
-
-    if isempty(picks) == false
-        scatter!(ax, pocks[:, 4], pocks[:, 2], marker='|', color=:red)
-        printstyled(" Plotting picks\n", color=:green)
-    end
-
-    tightlimits!(ax)
-    fig
-    return fig
-end
-
-
-
-
-
-
-export viewdas, recordsection, viewchannel, savefig
+export viewdas, viewchannel, savefig

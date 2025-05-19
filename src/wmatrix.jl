@@ -1,7 +1,7 @@
 "This is the Whole Matrix operations part of DAS VADER V1.0"
 
 
-export nan2zero!, inf2zero!, There, squaredas!, squaredas, absdas!, absdas, chop!, chop
+export nan2zero!, inf2zero!
 
 """
 nan2zero!: Remove NaN dDAS IN PLACE
