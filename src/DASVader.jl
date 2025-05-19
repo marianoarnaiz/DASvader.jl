@@ -5,7 +5,7 @@ module DASVader
 const VERBOSE = true  # or false, depending on your use case
 
 # choose the plot backend
-function __init__()
+#function __init__()
     if get(ENV, "DISPLAY", "") != ""
         include("vizGL.jl")
         VERBOSE && println("Using GLMakie (Display detected)")
@@ -13,7 +13,7 @@ function __init__()
         include("vizCairo.jl")
         VERBOSE && println("Using CairoMakie (Headless)")
     end
-end
+#end
 
 include("tandf.jl")
 include("wmatrix.jl")
