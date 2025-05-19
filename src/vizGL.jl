@@ -1,6 +1,8 @@
 using GLMakie, CairoMakie, Dates
 
 #################################################################
+println("Using GLMakie (Display detected)")
+#################################################################
 # Main FUNCTIONS
 #
 
