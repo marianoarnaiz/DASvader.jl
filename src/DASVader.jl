@@ -2,17 +2,13 @@
 
 module DASVader
 
-include("headless2.jl")
-#using .HeadlessCheck
-
-if has_graphical_display() == true
+# in your main module or script
+if get(ENV, "DISPLAY", "") != ""
     include("vizGL.jl")
-    #using .vizGL
-    @info "Working on graphical mode"
+    println("Using GLMakie (Display detected)")
 else
     include("vizCairo.jl")
-    #using .vizCairo
-    @info "Working on headless mode"
+    println("Using CairoMakie (Headless)")
 end
 
 include("tandf.jl")
