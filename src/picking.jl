@@ -2,7 +2,7 @@
 
 # Using
 using StatsBase:mean 
-using DelimitedFiles, GLMakie
+using DelimitedFiles
 using DSP:conv
 using StatsBase:mode
 
