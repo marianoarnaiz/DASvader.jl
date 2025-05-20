@@ -1,4 +1,4 @@
-using FFTW, GLMakie
+using FFTW
 
 # Define a structure to store spectrogram components
 struct Spec
