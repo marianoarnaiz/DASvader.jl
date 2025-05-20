@@ -15,15 +15,18 @@ module DASVader
 
 
 using Requires
-function __init__()
-    @require GLMakie="eaaa29a5-0c1c-538d-82f0-3b444fb5c4ed" begin
-        include("vizGL.jl")  # Only runs if GLMakie is installed
-        @info "GLMakie loaded via Requires"
-    end
 
-    @require CairoMakie="13f3f980-e62e-5c1d-bb38-64c898e36e9b" begin
-        include("vizCairo.jl")
-        @info "CairoMakie loaded via Requires"
+function __init__()
+    if get(ENV, "DISPLAY", "") != ""
+        @require GLMakie = "eaaa29a5-0c1c-538d-82f0-3b444fb5c4ed" begin
+            include("vizGL.jl")
+            @info "Using GLMakie (Display detected)"
+        end
+    else
+        @require CairoMakie = "13f3f980-e62e-5c1d-bb38-64c898e36e9b" begin
+            include("vizCairo.jl")
+            @info "Using CairoMakie (Headless)"
+        end
     end
 end
 
