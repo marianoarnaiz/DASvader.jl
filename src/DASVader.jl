@@ -16,7 +16,7 @@ module DASVader
 
 using Requires
 
-function __init__()
+#function __init__()
     if get(ENV, "DISPLAY", "") != ""
         @require GLMakie = "eaaa29a5-0c1c-538d-82f0-3b444fb5c4ed" begin
             include("vizGL.jl")
@@ -28,7 +28,7 @@ function __init__()
             @info "Using CairoMakie (Headless)"
         end
     end
-end
+#end
 
 
 include("tandf.jl")
