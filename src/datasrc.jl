@@ -154,17 +154,21 @@ function sample2D!(z, xis, xxis, yis, yyis, parts, data_z, op)
   Threads.@threads for p ∈ parts
     for (yi, yyi) ∈ zip(@view(yis[p]), @view(yyis[p]))
       for (xi, xxi) ∈ zip(xis, xxis)
-          if op == seis
-            A = mean(data_z[xi,yi])
-            if A > 0.0
-                z[xxi,yyi] = max(data_z[xi,yi])
-            else
-                z[xxi,yyi] = min(data_z[xi,yi])
+          #if op == seis
+          #  A = mean(data_z[xi,yi])
+          #  if A > 0.0
+          #      z[xxi,yyi] = max(data_z[xi,yi])
+          #  else
+          #      z[xxi,yyi] = min(data_z[xi,yi])
+          #  end
+          #   #StatsBase.mode(data_z[xi,yi]) #max(z[xxi,yyi], data_z[xi,yi])
+          #else
+          #      z[xxi,yyi] = op(z[xxi,yyi], data_z[xi,yi])
+          #end
+            if op == seis
+                z[xxi, yyi] = seis_abs_signed(data_z[xi, yi])
             end
-             #StatsBase.mode(data_z[xi,yi]) #max(z[xxi,yyi], data_z[xi,yi])
-          else
-                z[xxi,yyi] = op(z[xxi,yyi], data_z[xi,yi])
-          end
+                
       end
     end
   end
@@ -282,4 +286,10 @@ function intersection(xdisplayrange, xdatarange)
   ndx1 = something(findlast(<(first(xdisplayrange)), xdatarange), firstindex(xdatarange))
   ndx2 = something(findfirst(>(last(xdisplayrange)), xdatarange), lastindex(xdatarange))
   range(xdatarange[ndx1], xdatarange[ndx2]; step=max(step(xdisplayrange), step(xdatarange)))
+end
+
+function seis_abs_signed(data_z)
+    maxval = maximum(abs, data_z)
+    idx = findfirst(abs.(data_z) .== maxval)
+    return data_z[idx]  # returns the signed value
 end
