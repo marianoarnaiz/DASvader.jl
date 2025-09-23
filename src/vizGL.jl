@@ -42,6 +42,7 @@ function viewchannel(dDAS; x, type=identity)
     fv, smv = get_spectrum(dDAS.data[:, chind], 1 / (dDAS.time[2] - dDAS.time[1]))
 
     #GET SPECTOGRAM
+    delta = dDAS.time[2] - dDAS.time[1]
     spec = gspectrogram(dDAS.data[:, chind], 1 / delta)
 
 
