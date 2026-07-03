@@ -186,6 +186,11 @@ iheatmap!(g::FigureAxisPlotEx, x::AbstractRange, y::AbstractRange, z::AbstractMa
 iheatmap!(g::Axis, z::AbstractMatrix; kwargs...) = iviz((x, y, z) -> heatmap!(g, x, y, z; kwargs...), Samples2D(1:size(z, 1), 1:size(z, 2), z))
 iheatmap!(g::FigureAxisPlotEx, z::AbstractMatrix; kwargs...) = iviz((x, y, z) -> heatmap!(g.axis, x, y, z; kwargs...), Samples2D(1:size(z, 1), 1:size(z, 2), z))
 
+iheatmap(x::Vector{Float64}, y::Vector{Float64}, z::Matrix{Float64}; kwargs...) = iviz((x, y, z) -> heatmap(x, y, z; kwargs...), Samples2D(x, y, z))
+iheatmap!(g::FigureAxisPlotEx, x::Vector{Float64}, y::Vector{Float64}, z::Matrix{Float64}; kwargs...) = iviz((x, y, z) -> heatmap!(g.axis, x, y, z; kwargs...), Samples2D(x, y, z))
+iheatmap(x::AbstractVector, y::AbstractVector, z::AbstractMatrix; kwargs...) = iviz((x, y, z) -> heatmap(x, y, z; kwargs...), Samples2D(x, y, z))
+iheatmap!(g::FigureAxisPlotEx, x::AbstractVector, y::AbstractVector, z::AbstractMatrix; kwargs...) = iviz((x, y, z) -> heatmap!(g.axis, x, y, z; kwargs...), Samples2D(x, y, z))
+
 export iscatter, ilines, iheatmap
 export iscatter!, ilines!, iheatmap!
 export repaint
