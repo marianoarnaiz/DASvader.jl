@@ -665,60 +665,108 @@ end
 
 
 """
-fspecdas: compute the frequency spectrum for each channel
+    fspecdas(dDAS; type=identity, xscale=log10, yscale=identity)
 
-Input:
- - dDAS: DAS data structure
- type can be:
- nothing: power spectra are extracted;
- sqrt: will extract amplitude spectra,
- log: will extract log-spectra,
- decibel: will extract spectra in deciBels (see decibel).
+Compute the frequency spectrum of every channel of a DAS record, plot the
+result, and return the mean spectrum together with its frequency axis.
 
-Outputs:
-- spc: frequency spectrum matrix of the das
+Spectra are estimated with `spectra` using a window length and step equal to
+the sampling rate, so the frequency resolution is 1 Hz.
 
-Notes:
-# Example: compute the spectrum for each channel.
+# Arguments
+- `dDAS`: DAS data structure. Must provide `dDAS.data` (samples × channels),
+  `dDAS.time` (time vector in seconds) and `dDAS.offset` (channel positions in m).
+
+# Keywords
+- `type=identity`: function applied to the spectra by `spectra` (passed as `func`).
+  - `identity`: power spectra (default).
+  - `sqrt`: amplitude spectra.
+  - `log`: log-spectra.
+  - `decibel`: spectra in decibels (see `decibel`).
+- `xscale=log10`: x-axis scale of the mean spectrum plot (`log10` or `identity`).
+  With a log axis the 0 Hz bin is omitted from the line plot.
+- `yscale=identity`: y-axis scale of the mean spectrum plot (`log10` or `identity`).
+
+# Returns
+- `fmean::Matrix{Float64}`: `nbins × 2` matrix `[freqs smean]`, where the first
+  column is frequency in Hz and the second is the spectrum averaged over all channels.
+- `specM::Matrix{Float64}`: spectrum of each channel (`nbins × nchannels`).
+  Non-finite values (`NaN`, `Inf`) are replaced by 0.
+- `fig`: the `GLMakie` figure, with the channel-by-frequency heatmap on top and
+  the mean spectrum below.
+
+# Notes
+- The sampling rate is derived from the first two time samples, so the time
+  vector is assumed to be regularly sampled.
+- Calling this function activates `GLMakie` and displays the figure.
+
+# Example
+Compute the spectrum of each channel and plot the mean spectrum on log-log axes:
+
+```julia
+julia> out, specM, fig = fspecdas(dDAS; xscale=log10, yscale=log10);
+
+julia> freqs = out[:, 1];
+
+julia> smean = out[:, 2];
 ```
-julia> dasfspec(dDAS)
+
+Amplitude spectra with linear axes:
+
+```julia
+julia> out, specM, fig = fspecdas(dDAS; type=sqrt, xscale=identity);
 ```
 """
-function fspecdas(dDAS; type=identity)
+function fspecdas(dDAS; type=identity, xscale=log10, yscale=identity, plot_heatmap_log=false)
 
-    #Set up some trace information
+    # Trace information
     delta = dDAS.time[2] - dDAS.time[1]
-    sr = Int(round(1 / delta))
-    wl = Int(sr * 2)
-    global specM = zeros(Int(sr / 2), size(dDAS.offset, 1))
-    noc = size(dDAS.offset, 1)
-    for i = 1:size(dDAS.offset, 1)
+    sr    = round(Int, 1 / delta)
+    noc   = size(dDAS.data, 2)
+
+    # Run the first channel to get the frequency axis and the number of bins,
+    # instead of assuming sr/2 (which breaks for odd sr)
+    Σ1    = spectra(dDAS.data[:, 1], sr, sr; func=type)
+    nbins = length(Σ1.y)
+    freqs = hasproperty(Σ1, :x) ? collect(Σ1.x) : collect(range(0, sr / 2, length=nbins))
+
+    specM = zeros(nbins, noc)
+    specM[:, 1] = Σ1.y
+
+    for i in 2:noc
         printstyled(" Working on channel $i of $noc.\n", color=:blue)
-        Σ = spectra(dDAS.data[:, i], sr, sr; func=type)
-        global specM[:, i] = Σ.y
+        specM[:, i] = spectra(dDAS.data[:, i], sr, sr; func=type).y
     end
-    replace!(specM, NaN => 0.0)
-    replace!(specM, Inf => 0.0)
-    replace!(specM, -Inf => 0.0)
 
+    # Clean non-finite values
+    replace!(x -> isfinite(x) ? x : 0.0, specM)
 
-    GLMakie.activate!() #activate GL plottinge
+    smean = vec(mean(specM, dims=2))
+
+    # ---- Plotting ----
+    GLMakie.activate!()
     fig = Figure(; size=(600, 700))
-    ihm2 = iheatmap(fig[1:2, 1], specM, colormap=:turbo)
-    ihm2.axis.xlabel = "Frequency [Hz]"
-    ihm2.axis.ylabel = "Offset [m]"
-    Colorbar(fig[1:2, 2], ihm2.plot, label="Spectral Amp")
-    p1 = ilines(fig[3, 1], mean(specM, dims=2)[:])
-    #p2 = errorbars!(fig[3, 1], minimum(specM, dims=2)[:])
-    #p3 = ilines!(fig[3, 1], maximum(specM, dims=2)[:])
-    linkxaxes!(ihm2.axis, p1.axis)
-    ihm2.axis.title = "Spectrum of each channel"
-    p1.axis.title = "Mean Spectrum"
+
+    ihm = iheatmap(fig[1:2, 1], freqs, dDAS.offset, specM, colormap=:turbo)
+    ihm.axis.xlabel = "Frequency [Hz]"
+    ihm.axis.ylabel = "Offset [m]"
+    ihm.axis.title  = "Spectrum of each channel"
+    Colorbar(fig[1:2, 2], ihm.plot, label="Spectral Amp")
+
+    # Log x axes cannot show 0 Hz, so skip it in the line plot when needed
+    idx = xscale === identity ? (1:nbins) : findall(>(0), freqs)
+
+    ax = Axis(fig[3, 1];
+        xlabel = "Frequency [Hz]",
+        ylabel = "Mean Spectral Amp",
+        title  = "Mean Spectrum",
+        xscale = xscale,
+        yscale = yscale)
+    lines!(ax, freqs[idx], smean[idx])
 
     display(fig)
-    smean = mean(specM, dims=2)[:]
 
-    return smean, specM, fig
+    return [freqs smean], specM, fig
 end
 
 #############################################################################################
