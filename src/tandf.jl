@@ -742,12 +742,13 @@ function fspecdas(dDAS; type=identity, xscale=log10, yscale=identity, plot_heatm
     replace!(x -> isfinite(x) ? x : 0.0, specM)
 
     smean = vec(mean(specM, dims=2))
-
+    freqs = range(first(freqs), last(freqs); length=length(freqs))
+ 
     # ---- Plotting ----
     GLMakie.activate!()
     fig = Figure(; size=(600, 700))
-
     ihm = iheatmap(fig[1:2, 1], freqs, dDAS.offset, specM, colormap=:turbo)
+    #ihm = iheatmap(fig[1:2, 1], freqs, dDAS.offset, specM, colormap=:turbo)
     ihm.axis.xlabel = "Frequency [Hz]"
     ihm.axis.ylabel = "Offset [m]"
     ihm.axis.title  = "Spectrum of each channel"
